@@ -6,7 +6,10 @@ from .records import PIR
 from .pim_manager import PIMManager
 
 
-def save_records(records: dict[int, PIR], filename: str | Path) -> Path:
+def save_records(
+    records: dict[int, PIR], 
+    filename: str | Path = "records.pim"
+) -> Path:
     path = Path(filename)
     if path.suffix != ".pim":
         path = path.with_suffix(".pim")
