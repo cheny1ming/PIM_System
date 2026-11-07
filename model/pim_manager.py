@@ -12,7 +12,7 @@ class PIMManager:
     FIELDS = {
         "note": {"text"},
         "task": {"description", "deadline"},
-        "event": {"description", "start_time", "alarm"},
+        "event": {"description", "start", "alarm"},
         "contact": {"name", "address", "mobile"}
     }
 
@@ -26,12 +26,24 @@ class PIMManager:
         **fields
     ):
         # Check type of record
-        if record_type not in TYPES:
+        if not isinstance(record_type, str) or record_type not in self.TYPES:
             raise ValueError(
                 f"Unsupported record type: {record_type}"
             )
 
-        record_class = TYPES[record_type]
+        required_fields = self.FIELDS[record_type]
+        invalid_fields = set(fields) - required_fields
+        missing_fields = required_fields - set(fields)
+        if invalid_fields:
+            raise ValueError(
+                f"Invalid fields for {record_type}: {sorted(invalid_fields)}"
+            )
+        if missing_fields:
+            raise ValueError(
+                f"Missing required fields for {record_type}: {sorted(missing_fields)}"
+            )
+
+        record_class = self.TYPES[record_type]
 
         record = record_class(
             record_id=self._next_id,
@@ -40,6 +52,8 @@ class PIMManager:
 
         self._records[record.id] = record
         self._next_id += 1
+
+        return record
 
     # def add_task(
     #     self,

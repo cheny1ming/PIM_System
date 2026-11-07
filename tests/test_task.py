@@ -1,21 +1,31 @@
 from datetime import datetime
-from model.records import Task
 from model import PIMManager
 
+
 def test():
-    task = Task(
-        record_id=1,
+    manager = PIMManager()
+
+    manager.add_record("note", text="Study Python")
+    manager.add_record(
+        "task",
         description="Finish COMP3211 project",
-        deadline=datetime(2026, 11, 20)
+        deadline=datetime(2026, 11, 20),
+    )
+    manager.add_record(
+        "event",
+        description="Project meeting",
+        start=datetime(2026, 11, 15, 14, 0),
+        alarm=datetime(2026, 11, 15, 13, 30),
+    )
+    manager.add_record(
+        "contact",
+        name="Alice",
+        address="Hong Kong",
+        mobile="12345678",
     )
 
-    p = PIMManager()
-    p.add_task(
-        description="Finish COMP3211 project",
-        deadline=datetime(2026, 11, 20)
-    )
-    task1 = p.get_records(1)
-    print(task1)
+    for record_id in range(1, 5):
+        print(manager.get_records(record_id))
 
 
 if __name__ == "__main__":
