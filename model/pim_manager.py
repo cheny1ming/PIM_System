@@ -124,4 +124,25 @@ class PIMManager:
     def get_records(self, record_id: int):
         return self._records.get(record_id)
 
-    # def update(self, record_id: int, **field):
+    def update(
+        self, 
+        record_id: int, 
+        **fields
+    ):
+        if type(record_id) is not int or record_id <= 0:
+            raise ValueError("Record ID must be a positive integer")
+
+        record = self.get_records(record_id)
+        if record is None:
+            raise ValueError(f"Record not found: {record_id}")
+
+        invalid_fields = set(fields) - self.FIELDS[record.type]
+        if invalid_fields:
+            raise ValueError(
+                f"Invalid fields for {record.type}: {sorted(invalid_fields)}"
+            )
+
+        for name, value in fields.items():
+            setattr(record, name, value)
+
+        return record
