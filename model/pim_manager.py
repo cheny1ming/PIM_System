@@ -166,3 +166,29 @@ class PIMManager:
         self._next_id = len(records) + 1
 
         return deleted_record
+
+    def print_records(self, record_id: int | None = None):
+        if record_id is None:
+            records = list(self._records.values())
+        else:
+            if type(record_id) is not int or record_id <= 0:
+                raise ValueError("Record ID must be a positive integer")
+
+            record = self.get_records(record_id)
+            if record is None:
+                raise ValueError(f"Record not found: {record_id}")
+            records = [record]
+
+        if not records:
+            print("No records found.")
+            return
+
+        for record in records:
+            print(f"[{record.id}] {record.type.upper()}")
+            for field in record.to_dict():
+                if field in {"id", "type"}:
+                    continue
+                value = getattr(record, field)
+                if isinstance(value, datetime):
+                    value = value.strftime("%Y-%m-%d %H:%M")
+                print(f"  {field}: {value}")
