@@ -146,3 +146,23 @@ class PIMManager:
             setattr(record, name, value)
 
         return record
+
+    def delete(self, record_id: int):
+        if type(record_id) is not int or record_id <= 0:
+            raise ValueError("Record ID must be a positive integer")
+
+        if record_id not in self._records:
+            raise ValueError(f"Record not found: {record_id}")
+
+        deleted_record = self._records.pop(record_id)
+
+        records = list(self._records.values())
+
+        self._records = {}
+        for new_id, record in enumerate(records, start=1):
+            record._id = new_id
+            self._records[new_id] = record
+
+        self._next_id = len(records) + 1
+
+        return deleted_record
