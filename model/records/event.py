@@ -20,6 +20,6 @@ class Event(PIR):
         return {
             **self._base_dict(),
             "description": self.description,
-            "start": self.start,
-            "alarm": self.alarm
+            "start": self.start.isoformat(),
+            "alarm": self.alarm.isoformat()
         }
