@@ -26,7 +26,7 @@ class PIMManager:
         **fields
     ):
         # Check type of record
-        if record_type is not in TYPES:
+        if record_type not in TYPES:
             raise ValueError(
                 f"Unsupported record type: {record_type}"
             )
@@ -110,4 +110,4 @@ class PIMManager:
     def get_records(self, record_id: int):
         return self._records.get(record_id)
 
-    def update(self, record_id: int, **field):
+    # def update(self, record_id: int, **field):
