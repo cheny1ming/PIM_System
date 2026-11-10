@@ -8,8 +8,8 @@ from model.storage import load_records, save_records
 
 
 HELP = """Commands:
-  add TYPE field=value ...         Create a note, task, event, or contact.
-  update ID field=value ...        Modify selected fields of an existing PIR.
+  add TYPE field=value ...        Create a note, task, event, or contact.
+  update ID field=value ...       Modify selected fields of an existing PIR.
   show ID                         Print detailed information about one PIR.
   list                            Print detailed information about all PIRs.
   delete ID                       Delete a PIR and renumber subsequent PIRs.
