@@ -16,8 +16,8 @@ HELP = """Commands:
   find EXPRESSION                 Search PIRs using a condition expression.
   criteria NAME EXPRESSION        Define or replace a named search criterion.
   search NAME                     Search PIRs using a named criterion.
-  save FILENAME                   Save all PIRs as JSON in a .pim file; overwrite if it exists.
-  load FILENAME                   Replace current PIRs with those from a .pim file.
+  save FILENAME                   Save all PIRs to a .pim file.
+  load FILENAME                   Replace current PIRs from a .pim file and display them.
   help                            Display this user manual.
   quit                            Exit the system without automatically saving changes.
 
@@ -223,6 +223,7 @@ def execute_command(line, manager, criteria):
             manager._records = records
             manager._next_id = len(records) + 1
             print(f"Loaded {len(records)} records.")
+            manager.print_records()
         else:
             if args[0] not in criteria:
                 raise ValueError(f"Unknown criterion: {args[0]}")

@@ -184,11 +184,17 @@ class PIMManager:
             return
 
         for record in records:
-            print(f"[{record.id}] {record.type.upper()}")
-            for field in record.to_dict():
-                if field in {"id", "type"}:
-                    continue
-                value = getattr(record, field)
-                if isinstance(value, datetime):
-                    value = value.strftime("%Y-%m-%d %H:%M")
-                print(f"  {field}: {value}")
+            print(format_record(record))
+
+def format_record(record: PIR) -> str:
+    lines = [f"[{record.id}] {record.type.upper()}"]
+    for field in record.to_dict():
+        if field in {"id", "type"}:
+            continue
+        value = getattr(record, field)
+        if isinstance(value, datetime):
+            value = value.strftime("%Y-%m-%d %H:%M")
+        
+        value = str(value).replace("\n", "\n    ")
+        lines.append(f"  {field}: {value}")
+    return "\n".join(lines)
